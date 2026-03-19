@@ -1,63 +1,187 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Agrícola Pro</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão Rural Inteligente</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    font-family: 'Segoe UI';
+    background: linear-gradient(135deg, #e8f5e9, #ffffff);
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+}
+
+button {
+    background: green;
+    color: white;
+    border: none;
+}
+
+#resultado {
+    display: none;
+    margin-top: 15px;
+    background: #f1f8e9;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.res-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.erro {
+    color: red;
+    text-align: center;
+}
+</style>
+
 </head>
 <body>
 
 <div class="container">
-    <h2>🚜 Gestão Rural</h2>
+<h2>🚜 Gestão Rural Inteligente</h2>
 
-    <div class="form-group">
-        <label>Área (Hectares)</label>
-        <input type="number" id="area" placeholder="Ex: 10">
-    </div>
+<select id="unidade">
+    <option value="hectare">Hectares</option>
+    <option value="alqueire_sp">Alqueire Paulista</option>
+    <option value="alqueire_mg">Alqueire Mineiro</option>
+    <option value="alqueire_ba">Alqueire Baiano</option>
+</select>
 
-    <div class="form-group">
-        <label>Preço do Litro (R$)</label>
-        <input type="number" id="preco" placeholder="Ex: 5.90">
-    </div>
+<input type="number" id="area" placeholder="Área">
 
-    <div class="form-group">
-        <label>Tipo de Trator</label>
-        <select id="trator">
-            <option value="50">Pequeno (50 CV)</option>
-            <option value="100" selected>Médio (100 CV)</option>
-            <option value="180">Grande (180 CV)</option>
-            <option value="250">Extra Grande (250 CV)</option>
-        </select>
-    </div>
+<input type="number" id="preco" placeholder="Preço combustível (R$)">
 
-    <div class="form-group">
-        <label>Operação</label>
-        <select id="operacao">
-            <option value="arar">Arar Solo</option>
-            <option value="plantar">Plantar</option>
-            <option value="irrigar">Pulverizar / Irrigar</option>
-        </select>
-    </div>
+<select id="trator">
+    <option value="50">50 CV</option>
+    <option value="100">100 CV</option>
+    <option value="180">180 CV</option>
+    <option value="250">250 CV</option>
+</select>
 
-    <div class="form-group">
-        <label>Combustível</label>
-        <select id="combustivel">
-            <option value="diesel">Diesel</option>
-            <option value="gasolina">Gasolina</option>
-        </select>
-    </div>
+<select id="operacao">
+    <option value="arar">Arar</option>
+    <option value="plantar">Plantar</option>
+    <option value="irrigar">Irrigar</option>
+</select>
 
-    <button onclick="calcular()">CALCULAR CUSTOS</button>
+<select id="combustivel">
+    <option value="diesel">Diesel</option>
+    <option value="gasolina">Gasolina</option>
+</select>
 
-    <div id="resultado">
-        <div class="res-item">Tempo Total: <span id="res-tempo" class="res-val">--</span></div>
-        <div class="res-item">Combustível: <span id="res-comb" class="res-val">--</span></div>
-        <div class="res-item">Consumo/Hora: <span id="res-consumo-h" class="res-val">--</span></div>
-        <div class="res-item custo-total">Gasto Total: <span id="res-preco" class="res-val">R$ 0,00</span></div>
-    </div>
+<button onclick="calcular()">CALCULAR</button>
+
+<p id="erro" class="erro"></p>
+
+<div id="resultado">
+    <div class="res-item">Área convertida: <span id="areaConv"></span></div>
+    <div class="res-item">Tempo: <span id="tempo"></span></div>
+    <div class="res-item">Combustível: <span id="comb"></span></div>
+    <div class="res-item">Consumo/h: <span id="consumo"></span></div>
+    <div class="res-item">Custo: <span id="precoTotal"></span></div>
+
+    <canvas id="grafico"></canvas>
+</div>
 </div>
 
-<script src="script.js"></script>
+<script>
+let grafico;
+
+function converterArea(area, unidade) {
+    if (unidade === "alqueire_sp") return area * 2.42;
+    if (unidade === "alqueire_mg") return area * 4.84;
+    if (unidade === "alqueire_ba") return area * 9.68;
+    return area;
+}
+
+function calcular() {
+    let area = parseFloat(document.getElementById("area").value);
+    const unidade = document.getElementById("unidade").value;
+    const preco = parseFloat(document.getElementById("preco").value);
+    const potencia = parseInt(document.getElementById("trator").value);
+    const operacao = document.getElementById("operacao").value;
+    const combustivel = document.getElementById("combustivel").value;
+
+    if (!area || !preco) {
+        document.getElementById("erro").innerText = "Preencha os campos!";
+        return;
+    }
+
+    document.getElementById("erro").innerText = "";
+
+    const areaHectare = converterArea(area, unidade);
+
+    const config = {
+        arar: { vel: 5, fator: 0.02, ef: 0.75 },
+        plantar: { vel: 7, fator: 0.04, ef: 0.80 },
+        irrigar: { vel: 10, fator: 0.08, ef: 0.85 }
+    };
+
+    const op = config[operacao];
+
+    const largura = potencia * op.fator;
+    const rendimento = (largura * op.vel * op.ef) / 10;
+
+    const horas = areaHectare / rendimento;
+
+    const consumoBase = combustivel === 'diesel' ? 0.22 : 0.30;
+    const consumoHora = potencia * consumoBase * 0.75;
+
+    const totalLitros = consumoHora * horas;
+    const custo = totalLitros * preco;
+
+    document.getElementById("resultado").style.display = "block";
+
+    document.getElementById("areaConv").innerText = areaHectare.toFixed(2) + " ha";
+    document.getElementById("tempo").innerText = horas.toFixed(1) + " h";
+    document.getElementById("comb").innerText = totalLitros.toFixed(1) + " L";
+    document.getElementById("consumo").innerText = consumoHora.toFixed(1) + " L/h";
+    document.getElementById("precoTotal").innerText = custo.toLocaleString('pt-BR', {
+        style:'currency',
+        currency:'BRL'
+    });
+
+    criarGrafico(totalLitros, custo);
+}
+
+function criarGrafico(litros, custo) {
+    const ctx = document.getElementById("grafico").getContext("2d");
+
+    if (grafico) grafico.destroy();
+
+    grafico = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: ["Início", "Consumo", "Custo"],
+            datasets: [{
+                label: "Evolução",
+                data: [0, litros, custo],
+                tension: 0.4,
+                fill: true
+            }]
+        }
+    });
+}
+</script>
+
 </body>
 </html>
