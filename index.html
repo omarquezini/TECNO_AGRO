@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Agrícola Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>🚜 Gestão Rural</h2>
+    
+    <div class="form-group">
+        <label>Área (Hectares)</label>
+        <input type="number" id="area" placeholder="Ex: 10" step="0.1">
+    </div>
+
+    <div class="form-group">
+        <label>Preço do Litro (R$)</label>
+        <input type="number" id="preco" placeholder="Ex: 5.90" step="0.01">
+    </div>
+
+    <div class="form-group">
+        <label>Tipo de Trator</label>
+        <select id="trator">
+            <option value="50">Pequeno (50 CV)</option>
+            <option value="100" selected>Médio (100 CV)</option>
+            <option value="180">Grande (180 CV)</option>
+            <option value="250">Extra Grande (250 CV)</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Operação</label>
+        <select id="operacao">
+            <option value="arar">Arar Solo</option>
+            <option value="plantar">Plantar / Semear</option>
+            <option value="irrigar">Pulverizar / Irrigar</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Combustível</label>
+        <select id="combustivel">
+            <option value="diesel">Diesel</option>
+            <option value="gasolina">Gasolina</option>
+        </select>
+    </div>
+
+    <button onclick="calcular()">CALCULAR CUSTOS</button>
+
+    <div id="resultado">
+        <div class="res-item">Tempo Total: <span id="res-tempo" class="res-val">--</span></div>
+        <div class="res-item">Combustível: <span id="res-comb" class="res-val">--</span></div>
+        <div class="res-item">Consumo/Hora: <span id="res-consumo-h" class="res-val">--</span></div>
+        <div class="res-item custo-total">Gasto Total: <span id="res-preco" class="res-val">R$ 0,00</span></div>
+    </div>
+</div>
