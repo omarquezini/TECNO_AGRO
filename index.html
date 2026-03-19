@@ -168,16 +168,82 @@ function criarGrafico(litros, custo) {
 
     if (grafico) grafico.destroy();
 
+    // 🎨 GRADIENTE
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, "rgba(46, 125, 50, 0.4)");
+    gradient.addColorStop(1, "rgba(46, 125, 50, 0)");
+
     grafico = new Chart(ctx, {
         type: "line",
         data: {
-            labels: ["Início", "Consumo", "Custo"],
+            labels: ["Início", "Consumo", "Custo Final"],
             datasets: [{
-                label: "Evolução",
+                label: "Evolução da Operação",
                 data: [0, litros, custo],
+
+                borderColor: "#2e7d32",
+                backgroundColor: gradient,
+
+                borderWidth: 3,
+                pointBackgroundColor: "#ffffff",
+                pointBorderColor: "#2e7d32",
+                pointRadius: 6,
+                pointHoverRadius: 8,
+
                 tension: 0.4,
                 fill: true
             }]
+        },
+
+        options: {
+            responsive: true,
+            animation: {
+                duration: 1200,
+                easing: "easeOutQuart"
+            },
+
+            plugins: {
+                legend: {
+                    labels: {
+                        color: "#2e7d32",
+                        font: {
+                            size: 14,
+                            weight: "bold"
+                        }
+                    }
+                },
+
+                tooltip: {
+                    backgroundColor: "#2e7d32",
+                    titleColor: "#fff",
+                    bodyColor: "#fff",
+                    padding: 10,
+                    cornerRadius: 8
+                }
+            },
+
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: "#555",
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+
+                y: {
+                    grid: {
+                        color: "rgba(0,0,0,0.05)"
+                    },
+                    ticks: {
+                        color: "#555"
+                    }
+                }
+            }
         }
     });
 }
