@@ -1,253 +1,72 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestão Rural Inteligente</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-body {
-    font-family: 'Segoe UI';
-    background: linear-gradient(135deg, #e8f5e9, #ffffff);
-}
-
-.container {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    background: white;
-    border-radius: 15px;
-}
-
-input, select, button {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 10px;
-}
-
-button {
-    background: green;
-    color: white;
-    border: none;
-}
-
-#resultado {
-    display: none;
-    margin-top: 15px;
-    background: #f1f8e9;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.res-item {
-    display: flex;
-    justify-content: space-between;
-}
-
-.erro {
-    color: red;
-    text-align: center;
-}
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Rural Inteligente</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
 <div class="container">
-<h2>🚜 Gestão Rural Inteligente</h2>
+    <h2>🚜 Gestão Rural Inteligente</h2>
 
-<select id="unidade">
-    <option value="hectare">Hectares</option>
-    <option value="alqueire_sp">Alqueire Paulista</option>
-    <option value="alqueire_mg">Alqueire Mineiro</option>
-    <option value="alqueire_ba">Alqueire Baiano</option>
-</select>
+    <select id="unidade">
+        <option value="hectare">Hectares</option>
+        <option value="alqueire_sp">Alqueire Paulista</option>
+    </select>
 
-<input type="number" id="area" placeholder="Área">
+    <input type="number" id="area" placeholder="Área">
+    <input type="number" id="preco" placeholder="Preço combustível (R$)">
 
-<input type="number" id="preco" placeholder="Preço combustível (R$)">
+    <select id="trator">
+        <option value="10">Trator T3F New Holland CV </option>
+        <option value="20">Tratores Série 30 New Holland CV</option>
+        <option value="30">Trator TT e TTF New Holland CV</option>
+        <option value="40">Trator T6 New Holland CV</option>
+        <option value="50">Trator T3F New Holland</option>
+        <option value="60">Trator T6.140 Eletro Command</option>
+        <option value="70">Trator T4 New Holland</option>
+        <option value="80">Trator T6 Methane Power</option>
+        <option value="90">Trator T4.75S New Holland</option>
+        <option value="09">Trator T7 SWB New Holland</option>
+        <option value="08">Trator TT4 New Holland</option>
+        <option value="07">Trator T7 LWB New Holland</option>
+        <option value="06">Trator TL5 New Holland</option>
+        <option value="05">Trator T7.300 Auto Command</option>
+        <option value="04">Trator T5 New Holland</option>
+        <option value="03">Trator T8 PLM Intelligence™ New Holland</option>
+        <option value="02">Trator T5.110 S New Holland</option>
+        <option value="01">Trator T9 PLM Intelligence™ New Holland</option>
 
-<select id="trator">
-    <option value="50">50 CV</option>
-    <option value="100">100 CV</option>
-    <option value="180">180 CV</option>
-    <option value="250">250 CV</option>
-</select>
 
-<select id="operacao">
-    <option value="arar">Arar</option>
-    <option value="plantar">Plantar</option>
-    <option value="irrigar">Irrigar</option>
-</select>
+    </select>
 
-<select id="combustivel">
-    <option value="diesel">Diesel</option>
-    <option value="gasolina">Gasolina</option>
-</select>
+    <select id="operacao">
+        <option value="plantar">Plantar</option>
+    </select>
 
-<button onclick="calcular()">CALCULAR</button>
+    <select id="combustivel">
+        <option value="diesel">Diesel</option>
+        <option value="gasolina">Gasolina</option>
+    </select>
 
-<p id="erro" class="erro"></p>
+    <button onclick="calcular()">CALCULAR</button>
 
-<div id="resultado">
-    <div class="res-item">Área convertida: <span id="areaConv"></span></div>
-    <div class="res-item">Tempo: <span id="tempo"></span></div>
-    <div class="res-item">Combustível: <span id="comb"></span></div>
-    <div class="res-item">Consumo/h: <span id="consumo"></span></div>
-    <div class="res-item">Custo: <span id="precoTotal"></span></div>
+    <p id="erro" class="erro"></p>
 
-    <canvas id="grafico"></canvas>
+    <div id="resultado">
+        <div class="res-item">Área convertida: <span id="areaConv"></span></div>
+        <div class="res-item">Tempo: <span id="tempo"></span></div>
+        <div class="res-item">Combustível: <span id="comb"></span></div>
+        <div class="res-item">Consumo/h: <span id="consumo"></span></div>
+        <div class="res-item">Custo: <span id="precoTotal"></span></div>
+
+        <canvas id="grafico"></canvas>
+    </div>
 </div>
-</div>
 
-<script>
-let grafico;
-
-function converterArea(area, unidade) {
-    if (unidade === "alqueire_sp") return area * 2.42;
-    if (unidade === "alqueire_mg") return area * 4.84;
-    if (unidade === "alqueire_ba") return area * 9.68;
-    return area;
-}
-
-function calcular() {
-    let area = parseFloat(document.getElementById("area").value);
-    const unidade = document.getElementById("unidade").value;
-    const preco = parseFloat(document.getElementById("preco").value);
-    const potencia = parseInt(document.getElementById("trator").value);
-    const operacao = document.getElementById("operacao").value;
-    const combustivel = document.getElementById("combustivel").value;
-
-    if (!area || !preco) {
-        document.getElementById("erro").innerText = "Preencha os campos!";
-        return;
-    }
-
-    document.getElementById("erro").innerText = "";
-
-    const areaHectare = converterArea(area, unidade);
-
-    const config = {
-        arar: { vel: 5, fator: 0.02, ef: 0.75 },
-        plantar: { vel: 7, fator: 0.04, ef: 0.80 },
-        irrigar: { vel: 10, fator: 0.08, ef: 0.85 }
-    };
-
-    const op = config[operacao];
-
-    const largura = potencia * op.fator;
-    const rendimento = (largura * op.vel * op.ef) / 10;
-
-    const horas = areaHectare / rendimento;
-
-    const consumoBase = combustivel === 'diesel' ? 0.22 : 0.30;
-    const consumoHora = potencia * consumoBase * 0.75;
-
-    const totalLitros = consumoHora * horas;
-    const custo = totalLitros * preco;
-
-    document.getElementById("resultado").style.display = "block";
-
-    document.getElementById("areaConv").innerText = areaHectare.toFixed(2) + " ha";
-    document.getElementById("tempo").innerText = horas.toFixed(1) + " h";
-    document.getElementById("comb").innerText = totalLitros.toFixed(1) + " L";
-    document.getElementById("consumo").innerText = consumoHora.toFixed(1) + " L/h";
-    document.getElementById("precoTotal").innerText = custo.toLocaleString('pt-BR', {
-        style:'currency',
-        currency:'BRL'
-    });
-
-    criarGrafico(totalLitros, custo);
-}
-
-function criarGrafico(litros, custo) {
-    const ctx = document.getElementById("grafico").getContext("2d");
-
-    if (grafico) grafico.destroy();
-
-    // 🎨 GRADIENTE
-    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, "rgba(46, 125, 50, 0.4)");
-    gradient.addColorStop(1, "rgba(46, 125, 50, 0)");
-
-    grafico = new Chart(ctx, {
-        type: "line",
-        data: {
-            labels: ["Início", "Consumo", "Custo Final"],
-            datasets: [{
-                label: "Evolução da Operação",
-                data: [0, litros, custo],
-
-                borderColor: "#2e7d32",
-                backgroundColor: gradient,
-
-                borderWidth: 3,
-                pointBackgroundColor: "#ffffff",
-                pointBorderColor: "#2e7d32",
-                pointRadius: 6,
-                pointHoverRadius: 8,
-
-                tension: 0.4,
-                fill: true
-            }]
-        },
-
-        options: {
-            responsive: true,
-            animation: {
-                duration: 1200,
-                easing: "easeOutQuart"
-            },
-
-            plugins: {
-                legend: {
-                    labels: {
-                        color: "#2e7d32",
-                        font: {
-                            size: 14,
-                            weight: "bold"
-                        }
-                    }
-                },
-
-                tooltip: {
-                    backgroundColor: "#2e7d32",
-                    titleColor: "#fff",
-                    bodyColor: "#fff",
-                    padding: 10,
-                    cornerRadius: 8
-                }
-            },
-
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        color: "#555",
-                        font: {
-                            size: 12
-                        }
-                    }
-                },
-
-                y: {
-                    grid: {
-                        color: "rgba(0,0,0,0.05)"
-                    },
-                    ticks: {
-                        color: "#555"
-                    }
-                }
-            }
-        }
-    });
-}
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
