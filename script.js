@@ -24,15 +24,15 @@ function calcular() {
     let areaHa = unidade === "alqueire_sp" ? area * 2.42 : area;
 
     // Consumo base por tipo de trator (simulação)
-    let consumoHora = trator * 0.5;
+    let consumoHora = trator * 1.8;
 
     // Ajuste por combustível
     if (combustivel === "gasolina") {
-        consumoHora *= 1.1;
+        consumoHora *= 10.5;
     }
 
     // Tempo estimado (hectares por hora fictício)
-    let rendimento = 5; // ha/h
+    let rendimento = 7; // ha/h
     let tempo = areaHa / rendimento;
 
     // Combustível total
