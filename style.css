@@ -61,6 +61,34 @@ canvas {
     margin-top: 20px;
 }
 
+.resultado-simulacao {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f1f8e9;
+}
+
+.resultado-simulacao ul {
+    margin: 10px 0 0 20px;
+}
+
+.alerta {
+    margin-top: 12px;
+    padding: 10px;
+    border-left: 4px solid #f57c00;
+    background: #fff3e0;
+    color: #e65100;
+}
+
+.codigo-exemplo {
+    background: #263238;
+    color: #f8f8f2;
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
 /* Cabeçalho */
 .header {
     background: #1b5e20;

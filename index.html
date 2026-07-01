@@ -29,66 +29,25 @@
     <div class="container">
     <h2>🚜 Gestão Rural Inteligente</h2>
 
-    <label>Unidade de medida</label>
-    <select id="unidade">
-        <option value="hectare">Hectares</option>
-        <option value="alqueire_sp">Alqueire Paulista</option>
-    </select>
+    <label>Trator</label>
+    <select id="tratorSelect"></select>
 
-    <label>Área</label>
-    <input type="number" id="area" placeholder="Digite a área" min="0" required>
+    <label>Plantadeira</label>
+    <select id="plantadeiraSelect"></select>
 
-    <label>Preço do combustível (R$)</label>
-    <input type="number" id="preco" placeholder="Ex: 5.50" min="0" step="0.01" required>
-
-    <label>Tipo de trator</label>
-    <select id="trator">
-        <option value="10">Trator T3F New Holland CV</option>
-        <option value="20">Tratores Série 30 New Holland CV</option>
-        <option value="30">Trator TT e TTF New Holland CV</option>
-        <option value="40">Trator T6 New Holland CV</option>
-        <option value="50">Trator T3F New Holland</option>
-        <option value="60">Trator T6.140 Eletro Command</option>
-        <option value="70">Trator T4 New Holland</option>
-        <option value="80">Trator T6 Methane Power</option>
-        <option value="90">Trator T4.75S New Holland</option>
-        <option value="9">Trator T7 SWB New Holland</option>
-        <option value="8">Trator TT4 New Holland</option>
-        <option value="7">Trator T7 LWB New Holland</option>
-        <option value="6">Trator TL5 New Holland</option>
-        <option value="5">Trator T7.300 Auto Command</option>
-        <option value="4">Trator T5 New Holland</option>
-        <option value="3">Trator T8 PLM Intelligence™ New Holland</option>
-        <option value="2">Trator T5.110 S New Holland</option>
-        <option value="1">Trator T9 PLM Intelligence™ New Holland</option>
-    </select>
-
-    <label>Implemento</label>
-    <select id="operacao">
-        <option value="pl4000">Plantadeira PL4000 New Holland</option>
-        <option value="pl6000">Plantadeira PL6000 New Holland</option>
-        <option value="pl7000">Plantadeira PL7000 New Holland</option>
-    </select>
-
-    <label>Combustível</label>
-    <select id="combustivel">
-        <option value="diesel">Diesel</option>
-        <option value="gasolina">Gasolina</option>
+    <label>Cultura</label>
+    <select id="culturaSelect">
+        <option value="Soja">Soja</option>
+        <option value="Feijão">Feijão</option>
+        <option value="Milho">Milho</option>
     </select>
 
     <button id="btnCalcular">CALCULAR</button>
 
-    <p id="erro" class="erro"></p>
+    <div id="resultadoSimulacao" class="resultado-simulacao"></div>
 
-    <div id="resultado">
-        <div class="res-item">Área convertida: <span id="areaConv"></span></div>
-        <div class="res-item">Tempo estimado: <span id="tempo"></span></div>
-        <div class="res-item">Combustível total: <span id="comb"></span></div>
-        <div class="res-item">Consumo por hora: <span id="consumo"></span></div>
-        <div class="res-item">Custo total ( Combustivel ): <span id="precoTotal"></span></div>
-
-        <canvas id="grafico" width="400" height="200"></canvas>
-    </div>
+    <h3>Exemplo de execução</h3>
+    <pre id="exemploResultado" class="codigo-exemplo"></pre>
 </div>
 
 <script src="script.js"></script>
