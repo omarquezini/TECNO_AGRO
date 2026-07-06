@@ -100,7 +100,7 @@ function calcular_simulacao(trator_nome, plantadeira_nome, cultura) {
     const alertas = [];
 
     if (trator.potencia < potencia_necessaria) {
-        alertas.push("![⚠️](https://fonts.gstatic.com/s/e/notoemoji/17.0/26a0_fe0f/32.png) Alerta: Trator subdimensionado! Potência insuficiente para a operação ideal.");
+        alertas.push('<img src="https://fonts.gstatic.com/s/e/notoemoji/17.0/26a0_fe0f/32.png" alt="⚠️" width="20" height="20"> Alerta: Trator subdimensionado! Potência insuficiente para a operação ideal.');
     }
 
     return {
@@ -118,7 +118,7 @@ function calcular_simulacao(trator_nome, plantadeira_nome, cultura) {
         eficiencia: plantadeira.eficiencia,
         consumo_horario_total: Number(consumo_horario_total.toFixed(2)),
         largura_trabalho: Number(largura_trabalho.toFixed(2)),
-        cot: Number(cot.toFixed(2)),
+        cot : Number(cot.toFixed(2)),
         coe: Number(coe.toFixed(2)),
         consumo_por_hectare: Number(consumo_por_hectare.toFixed(2))
     };
@@ -182,8 +182,8 @@ function renderizarRelatorio(relatorio) {
             <li><strong>Linhas:</strong> ${relatorio.linhas}</li>
             <li><strong>Consumo horário total:</strong> ${formatarValor(relatorio.consumo_horario_total)} L/h</li>
             <li><strong>Largura de trabalho:</strong> ${formatarValor(relatorio.largura_trabalho)} m</li>
-            <li><strong>COT:</strong> ${formatarValor(relatorio.cot)} ha/h</li>
-            <li><strong>COE:</strong> ${formatarValor(relatorio.coe)} ha/h</li>
+            <li><strong>COT capacidade operacional teorica:</strong> ${formatarValor(relatorio.cot)} ha/h</li>
+            <li><strong>COE capacidade operacional efetiva:</strong> ${formatarValor(relatorio.coe)} ha/h</li>
             <li><strong>Consumo por hectare:</strong> ${formatarValor(relatorio.consumo_por_hectare)} L/ha</li>
         </ul>
         ${alertasHtml}
