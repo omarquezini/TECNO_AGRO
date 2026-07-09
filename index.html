@@ -5,80 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão Rural Inteligente</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 
-    <!-- Biblioteca de gráficos -->
-     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
     <header class="header">
-    <h1>TECNO AGRO</h1>
-    <nav>
-        <a href="#simulador">Simulador</a>
-        <a href="#comentarios">Comentários</a>
-        <a href="#sobre">Sobre Nós</a>
-    </nav>
-</header>
+        <div class="brand-block">
+            <div class="brand-mark">TA</div>
+            <div>
+                <p class="eyebrow">Plataforma de precisão</p>
+                <h1>TECNO AGRO</h1>
+            </div>
+        </div>
+        <nav>
+            <a href="#simulador">Simulador</a>
+            <a href="#comentarios">Comentários</a>
+            <a href="#sobre">Sobre Nós</a>
+        </nav>
+    </header>
 
-<!-- SIMULADOR -->
-<section id="simulador" class="container">
-    <h2>Simulador</h2>
+    <main class="page-shell">
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Planejamento operacional inteligente</p>
+                <h2>Simule com clareza, eficiência e precisão para decisões agronômicas mais assertivas.</h2>
+                <p>Uma experiência visual inspirada em ambientes digitais corporativos do agronegócio global, com foco em tecnologia, confiabilidade e organização.</p>
+                <img src="tecnologia-agricultura.webp" alt="Imagem de destaque" class="hero-image">
+            </div>
+            <div class="hero-card">
+                <div class="hero-metric">
+                    <span>Consumo estimado</span>
+                    <strong>Otimizando operações</strong>
+                </div>
+                <div class="hero-metric">
+                    <span>Capacidade</span>
+                    <strong>Planejamento em tempo real</strong>
+                </div>
+            </div>
+        </section>
 
-    <div class="container">
-    <h2>🚜 Gestão Rural Inteligente</h2>
+        <section class="container">
+            <div class="section-heading">
+                <p class="eyebrow">Desafios</p>
+                <h2>Desafios</h2>
+            </div>
 
-    <label>Trator</label>
-    <select id="tratorSelect"></select>
+            <div class="cards-grid">
+                <article class="comment-card">
+                    <p><strong>Volatilidade dos Insumos</strong></p>
+                    <p>Insumos como fertilizantes, sementes e defensivos flutuam de acordo com o mercado internacional e o câmbio, dificultando a previsão precisa de custos antes do início da safra.</p>
+                    <img src="inmangens./Volatilidade_dos_insumos.jpg" alt="Volatilidade dos Insumos" class="comment-image">
+                </article>
 
-    <label>Plantadeira</label>
-    <select id="plantadeiraSelect"></select>
+                <article class="comment-card">
+                    <p><strong>Custos Fixos e Depreciação</strong></p>
+                    <p>Equipamentos (tratores, semeadoras) sofrem desgaste e exigem manutenção. Determinar a parcela exata dessa depreciação por hectare de soja é um desafio constante.</p>
+                    <img src="inmangens./Custos_Fixos_e_Depreciação.jpeg" alt="Custos Fixos e Depreciação" class="comment-image">
+                </article>
 
-    <label>Cultura</label>
-    <select id="culturaSelect">
-        <option value="Soja">Soja</option>
-        <option value="Feijão">Feijão</option>
-        <option value="Milho">Milho</option>
-    </select>
+                <article class="comment-card">
+                    <p><strong>Risco Climático e Replantio</strong></p>
+                    <p>Secas ou excesso de chuvas podem exigir o replantio de partes da lavoura, elevando os custos operacionais de forma inesperada.</p>
+                    <img src="inmangens./Risco_Climático_e_Replantio.jpg" alt="Risco Climático e Replantio" class="comment-image">
+                </article>
 
-    <button id="btnCalcular">CALCULAR</button>
+                <article class="comment-card">
+                    <p><strong>Custos de Oportunidade e Financeiros</strong></p>
+                    <p>Envolvem o custo do capital investido (que poderia render em outras aplicações, como a taxa Selic) e o impacto de juros de financiamentos agrícolas.</p>
+                    <img src="images (4).jpeg" alt="Risco Climático e Replantio" class="comment-image">
+                </article>
+            </div>
+        </section>
 
-    <div id="resultadoSimulacao" class="resultado-simulacao"></div>
+        <section id="simulador" class="container">
+            <div class="section-heading">
+                <p class="eyebrow">Ferramenta</p>
+                <h2>Simulador</h2>
+                <p>Selecione os equipamentos e avalie o desempenho operacional com mais clareza.</p>
+            </div>
 
-</div>
+            <div class="simulator-card">
+                <h3>Gestão Rural Inteligente</h3>
 
-<script src="script.js"></script>
+                <label>Trator</label>
+                <select id="tratorSelect"></select>
 
-<!-- COMENTÁRIOS -->
-<section id="comentarios" class="container">
-    <h2>Comentários de Agrônomos</h2>
+                <label>Plantadeira</label>
+                <select id="plantadeiraSelect"></select>
 
-    <div class="comentario">
-        <p><strong>Dr. João Silva:</strong></p>
-        <p>O uso eficiente de combustível é essencial para reduzir custos na produção agrícola.</p>
-    </div>
+                <label>Cultura</label>
+                <select id="culturaSelect">
+                    <option value="Soja">Soja</option>
+                    <option value="Feijão">Feijão</option>
+                    <option value="Milho">Milho</option>
+                </select>
 
-    <div class="comentario">
-        <p><strong>Dra. Maria Oliveira:</strong></p>
-        <p>Planejamento adequado das operações pode aumentar significativamente a produtividade.</p>
-    </div>
+                <button id="btnCalcular">CALCULAR</button>
 
+                <div id="resultadoSimulacao" class="resultado-simulacao"></div>
+            </div>
+        </section>
 
-<!-- SOBRE NÓS -->
-<section id="sobre" class="container">
-    <h2>Sobre Nós</h2>
+        <section id="comentarios" class="container">
+            <div class="section-heading">
+                <p class="eyebrow">Confiabilidade</p>
+                <h2>Comentários de Agrônomos</h2>
+            </div>
 
-    <p>
-        O sistema <strong>Gestão Rural Inteligente</strong> foi desenvolvido para ajudar produtores
-        a tomar decisões mais eficientes no campo.
-    </p>
+            <div class="cards-grid">
+                <article class="comment-card">
+                    <p><strong>Dr. João Silva</strong></p>
+                    <p>O uso eficiente de combustível é essencial para reduzir custos na produção agrícola.</p>
+                </article>
 
-    <p>
-        Nosso objetivo é unir tecnologia e agronegócio, oferecendo ferramentas simples
-        e inteligentes para otimizar custos e produtividade.
-    </p>
-</section>
+                <article class="comment-card">
+                    <p><strong>Dra. Maria Oliveira</strong></p>
+                    <p>Planejamento adequado das operações pode aumentar significativamente a produtividade.</p>
+                </article>
+            </div>
+        </section>
 
+        
+
+        <section id="sobre" class="container">
+            <div class="section-heading">
+                <p class="eyebrow">Quem somos</p>
+                <h2>Sobre Nós</h2>
+            </div>
+
+            <div class="about-card">
+                <p>
+                    O sistema <strong>Gestão Rural Inteligente</strong> foi desenvolvido para ajudar produtores
+                    a tomar decisões mais eficientes no campo.
+                </p>
+
+                <p>
+                    Nosso objetivo é unir tecnologia e agronegócio, oferecendo ferramentas simples
+                    e inteligentes para otimizar custos e produtividade.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>Rafael • Julio • Renan</p>
+        <p>Colegio Reni Correa Gamper</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
